@@ -2,9 +2,14 @@
 import { Component, signal, computed } from "@angular/core";
 // The @Component decorator tells Angular: "This class is a visual component."
 // It is metadata it describes how this class connects to the HTML template.
+
+import { CourseCardComponent } from "../../ui/course-card/course-card.component";
+import { Course } from "../../models/course.model";
+
 @Component({
-  selector: "app-student-dashboard", // The HTML tag name: <app-student-dashboard />
+  selector: "tms-student-dashboard", // The HTML tag name: <app-student-dashboard />
   standalone: true, // This component manages its own imports (no NgModule)
+  imports: [CourseCardComponent],
   templateUrl: "./student-dashboard.component.html", // Points to theHTML file
   styleUrl: "./student-dashboard.component.scss", // Points to the styles file
 })
@@ -25,4 +30,24 @@ export class StudentDashboardComponent {
   registerForClass() {
   this.earnedCredits.update((c) => c + 3);
   }
+
+  // signal<Course | null>(null) means: "This signal holds either a Course or nothing."
+  // The | null syntax is TypeScript's way of saying a value can be absent.
+  selectedCourse = signal<Course | null>(null);
+  // A sample course to display (we will switch to an array in Excercise3)
+  sampleCourse: Course = {
+  id: 1,
+  title: "Advanced Java Services",
+  code: "CSE-101",
+  maxCapacity: 30,
+  enrollmentCount: 12,
+  };
+  handleEnroll(course: Course) {
+  this.selectedCourse.set(course);
+  console.log('Enrollment requested for:', course.title);
+  }
+
+
+
+
 }
