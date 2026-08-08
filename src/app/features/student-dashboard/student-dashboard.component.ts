@@ -1,5 +1,6 @@
 // These are the Angular functions we need. signal() and computed() come from Angular's core.
 import { Component, signal, computed } from "@angular/core";
+import { RouterLink } from "@angular/router";
 // The @Component decorator tells Angular: "This class is a visual component."
 // It is metadata it describes how this class connects to the HTML template.
 
@@ -9,7 +10,9 @@ import { Course } from "../../models/course.model";
 @Component({
   selector: "tms-student-dashboard", // The HTML tag name: <app-student-dashboard />
   standalone: true, // This component manages its own imports (no NgModule)
-  imports: [CourseCardComponent],
+  imports: [CourseCardComponent,
+            RouterLink
+           ],
   templateUrl: "./student-dashboard.component.html", // Points to theHTML file
   styleUrl: "./student-dashboard.component.scss", // Points to the styles file
 })
@@ -69,8 +72,5 @@ export class StudentDashboardComponent {
   this.selectedCourse.set(course);
   console.log('Enrollment requested for:', course.title);
   }
-
-
-
 
 }
