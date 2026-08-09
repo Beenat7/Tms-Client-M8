@@ -1,5 +1,6 @@
 // These are the Angular functions we need. signal() and computed() come from Angular's core.
 import { Component, signal, inject, computed } from "@angular/core";
+import { EnrollmentStore } from "../../store/enrollment.store";
 import { RouterLink } from "@angular/router";
 
 // The @Component decorator tells Angular: "This class is a visual component."
@@ -11,17 +12,22 @@ import { Course } from "../../models/course.model";
 import { rxResource } from "@angular/core/rxjs-interop";
 import { CourseService } from "../../services/course.service";
 
+import { EnrollmentListComponent } from "../enrollment-list/enrollment-list.component";
+
 @Component({
   selector: "tms-student-dashboard", // The HTML tag name: <app-student-dashboard />
   standalone: true, // This component manages its own imports (no NgModule)
   imports: [CourseCardComponent,
-            RouterLink
+            RouterLink,
+            EnrollmentListComponent
            ],
   templateUrl: "./student-dashboard.component.html", // Points to theHTML file
   styleUrl: "./student-dashboard.component.scss", // Points to the styles file
 })
 export class StudentDashboardComponent {
   private api = inject(CourseService);
+  readonly enrollmentStore = inject(EnrollmentStore);
+
   // signal('Liya Kebede') creates a reactive variable. Angular watchesit.
   // When its value changes, Angular automatically updates the part ofthe screen that displays it.
   studentName = signal("Liya Kebede");

@@ -1,0 +1,38 @@
+<p>enrollment-list works!</p>
+<section class="enrollment-list">
+  <h2>Enrollment List</h2>
+
+  @if (store.isLoading()) {
+    <p>Loading enrollments...</p>
+  }
+
+  @if (!store.isLoading() && store.entities().length === 0) {
+    <p>No enrollments found.</p>
+  }
+
+  @for (enrollment of store.entities(); track enrollment.id) {
+    <article class="enrollment-card">
+      <div>
+        <strong>{{ enrollment.studentName }}</strong>
+        <span> — {{ enrollment.courseName }}</span>
+      </div>
+
+      <span class="status">
+        {{ enrollment.status }}
+      </span>
+
+      @if (enrollment.status === 'Pending') {
+        <button
+          type="button"
+          (click)="onApprove(enrollment.id)"
+        >
+          Approve
+        </button>
+      }
+    </article>
+  }
+
+  @if (store.error()) {
+    <p class="error">{{ store.error() }}</p>
+  }
+</section>
