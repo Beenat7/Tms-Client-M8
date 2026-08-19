@@ -12,14 +12,11 @@ import { Course } from "../../models/course.model";
 import { rxResource } from "@angular/core/rxjs-interop";
 import { CourseService } from "../../services/course.service";
 
-import { EnrollmentListComponent } from "../enrollment-list/enrollment-list.component";
-
 @Component({
   selector: "tms-student-dashboard", // The HTML tag name: <app-student-dashboard />
   standalone: true, // This component manages its own imports (no NgModule)
   imports: [CourseCardComponent,
             RouterLink,
-            EnrollmentListComponent
            ],
   templateUrl: "./student-dashboard.component.html", // Points to theHTML file
   styleUrl: "./student-dashboard.component.scss", // Points to the styles file
