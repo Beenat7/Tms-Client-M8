@@ -21,6 +21,15 @@ export const routes: Routes = [
     import("./features/enrollment-form/enrollment-form.component")
       .then(m => m.EnrollmentFormComponent),
   },
+  {
+    path: 'grade-submission',
+    loadComponent: () =>
+      import(
+        './features/grade-submission/grade-submission.component'
+      ).then(
+        (m) => m.GradeSubmissionComponent
+      ),
+  },
 
   {
     path: "",

@@ -12,10 +12,11 @@ import {
   withEntities,
 } from '@ngrx/signals/entities';
 import { rxMethod } from '@ngrx/signals/rxjs-interop';
-import { catchError, concatMap, EMPTY, pipe, tap } from 'rxjs';
-
+import { catchError, concatMap, EMPTY, pipe, tap,switchMap } from 'rxjs';
 import { Enrollment } from '../models/enrollment.model';
 import { EnrollmentService } from '../services/enrollment.service';
+
+import { LiveSyncService } from '../services/live-sync';
 
 export const EnrollmentStore = signalStore(
   { providedIn: 'root' },
@@ -36,7 +37,7 @@ export const EnrollmentStore = signalStore(
     ),
   })),
 
-  withMethods((store, api = inject(EnrollmentService)) => ({
+  withMethods((store, api = inject(EnrollmentService), sync = inject(LiveSyncService) ) => ({
     loadEnrollments: rxMethod<void>(
       pipe(
         tap(() => {
@@ -109,5 +110,29 @@ export const EnrollmentStore = signalStore(
         )
       )
     ),
+
+    listenForLiveUpdates: rxMethod<void>(
+  pipe(
+    tap(() => sync.connect()),
+
+    switchMap(() => sync.events$),
+
+    tap((event) => {
+      patchState(
+        store,
+        updateEntity({
+          id: event.id,
+          changes: {
+            status: event.status,
+          },
+        })
+      );
+    })
+  )
+),
+
+
+
+
   }))
 );
