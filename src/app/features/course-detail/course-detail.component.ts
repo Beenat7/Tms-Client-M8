@@ -8,7 +8,7 @@ import { RouterLink } from "@angular/router";
   templateUrl: "./course-detail.component.html",
 })
 export class CourseDetailComponent {
-  id = input.required<string>();
+  id = input.required<number>();
 
   constructor() {
     effect(() => {

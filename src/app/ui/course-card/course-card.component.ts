@@ -13,4 +13,5 @@ export class CourseCardComponent {
   course = input.required<Course>();
 
   enrollClicked = output<Course>();
+  deleteClicked = output<Course>();
 }

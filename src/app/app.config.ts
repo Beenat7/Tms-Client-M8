@@ -3,6 +3,7 @@ import { provideRouter, withComponentInputBinding } from "@angular/router";
 import { provideHttpClient,withInterceptors, withXsrfConfiguration } from "@angular/common/http";
 import { routes } from "./app.routes";
 import { credentialsInterceptor } from './interceptors/credentials.interceptor';
+import { errorInterceptor } from "./interceptors/error.interceptor";
 
 
 export const appConfig: ApplicationConfig = {
@@ -10,7 +11,10 @@ export const appConfig: ApplicationConfig = {
     provideZonelessChangeDetection(),
     provideRouter(routes, withComponentInputBinding()),
     provideHttpClient(
-    withInterceptors([credentialsInterceptor]),
+    withInterceptors([
+      credentialsInterceptor,
+      errorInterceptor
+    ]),
     withXsrfConfiguration({
       cookieName: 'XSRF-TOKEN', // Cookie name set by .NETserver
       headerName: 'X-XSRF-TOKEN', // Header expected by .NETserver

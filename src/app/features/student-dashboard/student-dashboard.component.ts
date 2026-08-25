@@ -1,6 +1,7 @@
 // These are the Angular functions we need. signal() and computed() come from Angular's core.
 import { Component, signal, inject, computed } from "@angular/core";
 import { EnrollmentStore } from "../../store/enrollment.store";
+import { CourseStore } from "../../store/course.store";
 import { RouterLink } from "@angular/router";
 
 // The @Component decorator tells Angular: "This class is a visual component."
@@ -9,8 +10,7 @@ import { RouterLink } from "@angular/router";
 import { CourseCardComponent } from "../../ui/course-card/course-card.component";
 import { Course } from "../../models/course.model";
 
-import { rxResource } from "@angular/core/rxjs-interop";
-import { CourseService } from "../../services/course.service";
+
 
 @Component({
   selector: "tms-student-dashboard", // The HTML tag name: <app-student-dashboard />
@@ -22,7 +22,7 @@ import { CourseService } from "../../services/course.service";
   styleUrl: "./student-dashboard.component.scss", // Points to the styles file
 })
 export class StudentDashboardComponent {
-  private api = inject(CourseService);
+  readonly courseStore = inject(CourseStore);
   readonly enrollmentStore = inject(EnrollmentStore);
 
   // signal('Liya Kebede') creates a reactive variable. Angular watchesit.
@@ -37,10 +37,9 @@ export class StudentDashboardComponent {
     : "In Progress",
   );
 
-  coursesResource = rxResource({
-  stream: () => this.api.getAll(),
-  });
-
+  constructor() {
+    this.courseStore.loadCourses();
+  }
 
   // A regular method. When called, it updates the earnedCredits signal.
   // The .update() method receives the current value (c) and returns the new value (c + 3).
@@ -55,6 +54,10 @@ export class StudentDashboardComponent {
   handleEnroll(course: Course) {
   this.selectedCourse.set(course);
   console.log('Enrollment requested for:', course.title);
+  }
+
+   handleDelete(course: Course) {
+    this.courseStore.deleteCourse(course.id);
   }
 
 }

@@ -29,9 +29,17 @@ export class CourseService {
       );
   }
 
-  getById(id: string) {
+  getById(id: number) {
     return this.http.get<CourseDetail>(
       `${this.baseUrl}/${id}`,
     );
   }
+
+  delete(id: number) {
+    return this.http.delete<void>(
+      `${this.baseUrl}/${id}`,
+    );
+  }
+
+
 }
