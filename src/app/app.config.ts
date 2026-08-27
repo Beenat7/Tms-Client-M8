@@ -4,6 +4,7 @@ import { provideHttpClient,withInterceptors, withXsrfConfiguration } from "@angu
 import { routes } from "./app.routes";
 import { credentialsInterceptor } from './interceptors/credentials.interceptor';
 import { errorInterceptor } from "./interceptors/error.interceptor";
+import { jwtInterceptor } from "./interceptors/jwt.interceptor";
 
 
 export const appConfig: ApplicationConfig = {
@@ -13,7 +14,8 @@ export const appConfig: ApplicationConfig = {
     provideHttpClient(
     withInterceptors([
       credentialsInterceptor,
-      errorInterceptor
+      errorInterceptor,
+      jwtInterceptor
     ]),
     withXsrfConfiguration({
       cookieName: 'XSRF-TOKEN', // Cookie name set by .NETserver

@@ -1,4 +1,6 @@
 import { Routes } from "@angular/router";
+import { roleGuard } from './guards/role.guard';
+import { UnauthorizedComponent } from './features/unauthorized/unauthorized.component';
 
 export const routes: Routes = [
   {
@@ -8,6 +10,7 @@ export const routes: Routes = [
         (m) => m.StudentDashboardComponent,
       ),
   },
+
   {
     path: "courses/:id",
     loadComponent: () =>
@@ -15,12 +18,14 @@ export const routes: Routes = [
         (m) => m.CourseDetailComponent,
       ),
   },
+
   {
   path: "enroll",
   loadComponent: () =>
     import("./features/enrollment-form/enrollment-form.component")
       .then(m => m.EnrollmentFormComponent),
   },
+
   {
     path: 'grade-submission',
     loadComponent: () =>
@@ -29,6 +34,19 @@ export const routes: Routes = [
       ).then(
         (m) => m.GradeSubmissionComponent
       ),
+  },
+  
+  {
+    path: 'admin/courses',
+    loadComponent: () =>
+      import('./features/admin-course-list/admin-course-list.component')
+        .then(m => m.AdminCourseListComponent),
+    canActivate: [roleGuard('Admin')],
+  },
+
+  {
+    path: 'unauthorized',
+    component: UnauthorizedComponent,
   },
 
   {
