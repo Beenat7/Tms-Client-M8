@@ -1,65 +1,97 @@
-<div class="dashboard">
-  <h1>Welcome, {{ studentName() }}</h1>
-  <p>Credits Earned: {{ earnedCredits() }}</p>
-  <p>Graduation Status: {{ graduationStatus() }}</p>
-  <button (click)="registerForClass()">
-    Register for a Class (+3 credits)
-  </button>
- 
-  <p>
-    <a routerLink="/enroll">
-      Go to Enrollment Form
-    </a>
-  </p>
+<div class="dashboard-page">
+  <header class="topbar">
+    <div class="brand-wrap">
+      <div class="brand-mark">TMS</div>
+      <div>
+        <p class="eyebrow">Learning hub</p>
+        <h2>Student portal</h2>
+      </div>
+    </div>
 
-</div>
- <h2>Course Catalog</h2>
+    <nav class="topbar-actions" aria-label="Quick navigation">
+      <a routerLink="/enroll" class="nav-link">Enroll now</a>
+    </nav>
+  </header>
 
+  <main class="dashboard-shell">
+    <section class="hero-panel">
+      <div class="hero-copy">
+        <p class="eyebrow accent">Academic overview</p>
+        <h1>Welcome back, {{ studentName() }}</h1>
+        <p class="subtitle">
+          Keep your academic plan on track with a clear view of your progress,
+          available courses, and enrollment activity.
+        </p>
+      </div>
 
- @if (courseStore.isLoading()) {
+      <div class="hero-metrics" aria-label="Academic summary">
+        <div class="metric-card">
+          <span class="metric-label">Credits earned</span>
+          <strong>{{ earnedCredits() }}</strong>
+        </div>
+        <div class="metric-card accent-card">
+          <span class="metric-label">Graduation</span>
+          <strong>{{ graduationStatus() }}</strong>
+        </div>
+      </div>
 
-  <div class="spinner">
-    Fetching courses from the server...
-  </div>
+      <div class="hero-actions">
+        <button class="primary-button" type="button" (click)="registerForClass()">
+          Register for a class (+3 credits)
+        </button>
+        <a routerLink="/enroll" class="secondary-button">Open enrollment form</a>
+      </div>
+    </section>
 
-} @else if (courseStore.error()) {
+    <section class="catalog-panel">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">Course catalog</p>
+          <h2>Available courses</h2>
+        </div>
+        <span class="pill">{{ courseStore.entities().length }} listed</span>
+      </div>
 
-  <div class="error">
-    {{ courseStore.error() }}
-  </div>
+      @if (courseStore.isLoading()) {
+        <div class="status-box loading">
+          Fetching courses from the server...
+        </div>
+      } @else if (courseStore.error()) {
+        <div class="status-box error">
+          {{ courseStore.error() }}
+        </div>
+      } @else {
+        <div class="grid">
+          @for (course of courseStore.entities(); track course.id) {
+            <tms-course-card
+              [course]="course"
+              (enrollClicked)="handleEnroll($event)"
+              (deleteClicked)="handleDelete($event)"
+            />
+          } @empty {
+            <p class="empty-state">No courses are available this term.</p>
+          }
+        </div>
+      }
+    </section>
 
-} @else {
-  <div class="grid">
-    @for (
-      course of courseStore.entities();
-      track course.id
-    ) {
-      <tms-course-card
-        [course]="course"
-        (enrollClicked)="handleEnroll($event)"
-        (deleteClicked)="handleDelete($event)"
-      />
-    } @empty {
-      <p>No courses are available this term.</p>
-    }
-
-  </div>
-}
-
-      @if (selectedCourse(); as picked) {
+    @if (selectedCourse(); as picked) {
       <p class="selection-hint" role="status">
-        Last enrollment request:
-        <strong>{{ picked.title }}</strong>
-        ({{ picked.code }})
+        Last enrollment request: <strong>{{ picked.title }}</strong> ({{ picked.code }})
       </p>
     }
 
-  <section class="enrollment-summary">
-    <h2>Enrollment Summary</h2>
-    <p>
-      Pending enrollments:
-      <strong>{{ enrollmentStore.pendingCount() }}</strong>
-    </p>
-  </section>
-    
+    <section class="summary-panel">
+      <div class="summary-header">
+        <p class="eyebrow">Enrollment summary</p>
+        <h2>Current activity</h2>
+      </div>
+      <div class="summary-stat">
+        <span>Pending enrollments</span>
+        <strong>{{ enrollmentStore.pendingCount() }}</strong>
+      </div>
+    </section>
+  </main>
+</div>
+
   

@@ -1,39 +1,49 @@
-<div class="card">
+<article class="course-card">
+  <div class="card-header">
+    <div class="course-code">{{ course().code }}</div>
+    <span
+      class="status-badge"
+      [class.full]="course().enrollmentCount >= course().maxCapacity"
+    >
+      {{
+        course().enrollmentCount >= course().maxCapacity
+          ? "Full"
+          : "Open"
+      }}
+    </span>
+  </div>
+
   <h3>
-  <a [routerLink]="['/courses', course().id]">
-    {{ course().title }}
-  </a>
-  ({{ course().code }})
+    <a [routerLink]="['/courses', course().id]">{{ course().title }}</a>
   </h3>
 
-  <p>
-    Enrolled {{ course().enrollmentCount }} of
-    {{ course().maxCapacity }} seats
+  <p class="seat-summary">
+    Enrolled {{ course().enrollmentCount }} of {{ course().maxCapacity }} seats
   </p>
 
-  <span
-    class="badge"
-    [class.closed]="course().enrollmentCount >= course().maxCapacity"
-  >
-    {{
-      course().enrollmentCount >= course().maxCapacity
-        ? "Full"
-        : "Accepting enrollments"
-    }}
-  </span>
+  <div class="progress-track" aria-label="Course capacity">
+    <span
+      class="progress-fill"
+      [style.width.%]="percentage(course())"
+    ></span>
+  </div>
 
-  <button
-    (click)="enrollClicked.emit(course())"
-    [disabled]="course().enrollmentCount >= course().maxCapacity"
-  >
-    Enroll
-  </button>
-    
-  <button
-    type="button"
-    (click)="deleteClicked.emit(course())"
-  >
-    Delete Course
-  </button>
+  <div class="card-actions">
+    <button
+      class="primary-button"
+      type="button"
+      (click)="enrollClicked.emit(course())"
+      [disabled]="course().enrollmentCount >= course().maxCapacity"
+    >
+      Enroll
+    </button>
 
-</div>
+    <button
+      class="secondary-button danger-button"
+      type="button"
+      (click)="deleteClicked.emit(course())"
+    >
+      Delete
+    </button>
+  </div>
+</article>
