@@ -1,94 +1,88 @@
-<h2>Course Enrollment</h2>
+<div class="enrollment-page">
+  <section class="enrollment-shell">
+    <header class="form-header">
+      <div>
+        <p class="eyebrow">Enrollment</p>
+        <h2>Course Enrollment</h2>
+      </div>
+      <span class="status-pill">Spring term</span>
+    </header>
 
-@if (submitted()) {
-  <div class="success">
-    Enrollment submitted. Check the console for the payload.
-  </div>
-} @else {
+    @if (submitted()) {
+      <div class="success-box">
+        <strong>Enrollment submitted.</strong>
+        <span>Check the console for the payload.</span>
+      </div>
+    } @else {
+      <form class="enrollment-form" [formGroup]="form" (ngSubmit)="submit()">
+        <div class="field-grid">
+          <div class="field-group">
+            <label for="studentId">Student ID</label>
+            <input
+              id="studentId"
+              formControlName="studentId"
+              placeholder="e.g. STU-1234"
+            />
+            @if (form.controls.studentId.touched && form.controls.studentId.invalid) {
+              <span class="error">
+                Enter a valid Student ID (format: STU-0000)
+              </span>
+            }
+          </div>
 
-<form [formGroup]="form" (ngSubmit)="submit()">
+          <div class="field-group">
+            <label for="courseId">Course ID</label>
+            <input
+              id="courseId"
+              formControlName="courseId"
+              placeholder="e.g. 1 (TMS course primary key)"
+            />
+            @if (form.controls.courseId.touched && form.controls.courseId.invalid) {
+              <span class="error">
+                Course ID is required
+              </span>
+            }
+          </div>
 
-  <label for="studentId">Student ID</label>
+          <div class="field-group">
+            <label for="term">Term</label>
+            <input id="term" formControlName="term" />
+          </div>
 
-  <input
-    id="studentId"
-    formControlName="studentId"
-    placeholder="e.g. STU-1234"
-  />
+          <div class="field-group full-width">
+            <label for="notes">Notes (optional)</label>
+            <textarea id="notes" formControlName="notes" rows="4"></textarea>
+          </div>
+        </div>
 
-  @if (form.controls.studentId.touched &&
-       form.controls.studentId.invalid) {
-    <span class="error">
-      Enter a valid Student ID (format: STU-0000)
-    </span>
-  }
+        <div class="backup-panel">
+          <div class="backup-header">
+            <h3>Backup Courses</h3>
+            <button type="button" class="ghost-button" (click)="addBackup()">
+              Add backup
+            </button>
+          </div>
 
-  <label for="courseId">Course ID</label>
+          @for (backup of backups.controls; track $index) {
+            <div class="backup-row">
+              <input
+                [formControl]="backup"
+                [placeholder]="'Backup course ' + ($index + 1)"
+              />
 
-  <input
-    id="courseId"
-    formControlName="courseId"
-    placeholder="e.g. 1 (TMS course primary key)"
-  />
+              <button class="remove-button" type="button" (click)="removeBackup($index)">
+                Remove
+              </button>
+            </div>
+          }
+        </div>
 
-  @if (form.controls.courseId.touched &&
-       form.controls.courseId.invalid) {
-    <span class="error">
-      Course ID is required
-    </span>
-  }
-
-  <label for="term">Term</label>
-
-  <input
-    id="term"
-    formControlName="term"
-  />
-
-  <label for="notes">
-    Notes (optional)
-  </label>
-
-  <textarea
-    id="notes"
-    formControlName="notes">
-  </textarea>
-
-  <h3>Backup Courses</h3>
-
-  @for (backup of backups.controls; track $index) {
-
-    <div class="backup-row">
-
-      <input
-        [formControl]="backup"
-        [placeholder]="'Backup course ' + ($index + 1)"
-      />
-
-      <button
-        type="button"
-        (click)="removeBackup($index)">
-        Remove
-      </button>
-
-    </div>
-
-  }
-
-  <button
-    type="button"
-    (click)="addBackup()">
-    Add Backup Course
-  </button>
-
-  <hr />
-
-  <button
-    type="submit"
-    [disabled]="form.invalid">
-    Confirm Enrollment
-  </button>
-
-</form>
-
-}
+        <div class="form-actions">
+          <button class="primary-button" type="submit" [disabled]="form.invalid">
+            Confirm Enrollment
+          </button>
+        </div>
+      </form>
+    }
+  </section>
+</div>

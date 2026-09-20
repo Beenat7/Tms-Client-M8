@@ -1,0 +1,25 @@
+.dashboard {
+  display: grid;
+  gap: 1.5rem;
+}
+
+.dashboard-header {
+  padding: 1.5rem;
+}
+
+.chart-section {
+  min-height: 300px;
+}
+
+.skeleton-chart {
+  min-height: 300px;
+  display: grid;
+  place-items: center;
+  border: 1px dashed #aaa;
+  border-radius: 8px;
+}
+
+.spinner {
+  padding: 2rem;
+  text-align: center;
+}

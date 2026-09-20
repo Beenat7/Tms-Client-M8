@@ -1,0 +1,225 @@
+:host {
+  display: block;
+}
+
+.enrollment-page {
+  display: flex;
+  justify-content: center;
+  padding: 24px 0 40px;
+}
+
+.enrollment-shell {
+  width: min(760px, 100%);
+  background: rgba(255, 255, 255, 0.82);
+  border: 1px solid rgba(15, 23, 42, 0.08);
+  border-radius: 28px;
+  box-shadow: 0 18px 40px rgba(15, 23, 42, 0.08);
+  padding: 28px;
+}
+
+.form-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.eyebrow {
+  margin: 0 0 8px;
+  color: var(--text-soft);
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-weight: 700;
+}
+
+.form-header h2 {
+  margin: 0;
+  font-size: clamp(1.8rem, 3vw, 2.4rem);
+}
+
+.status-pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 12px;
+  background: var(--primary-soft);
+  color: var(--primary-strong);
+  border-radius: 999px;
+  font-size: 0.76rem;
+  font-weight: 700;
+}
+
+.enrollment-form {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.field-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(220px, 1fr));
+  gap: 18px;
+}
+
+.field-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.field-group.full-width {
+  grid-column: 1 / -1;
+}
+
+label {
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: var(--text);
+}
+
+input,
+textarea {
+  width: 100%;
+  border: 1px solid rgba(148, 163, 184, 0.35);
+  background: rgba(255, 255, 255, 0.85);
+  border-radius: 14px;
+  padding: 0.8rem 0.9rem;
+  color: var(--text);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+input:focus,
+textarea:focus {
+  outline: none;
+  border-color: rgba(45, 108, 223, 0.4);
+  box-shadow: 0 0 0 4px rgba(45, 108, 223, 0.1);
+}
+
+textarea {
+  resize: vertical;
+  min-height: 110px;
+}
+
+.error {
+  color: #b91c1c;
+  font-size: 0.78rem;
+  font-weight: 600;
+}
+
+.backup-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  background: rgba(245, 247, 252, 0.9);
+  border: 1px solid rgba(148, 163, 184, 0.16);
+  border-radius: 20px;
+  padding: 18px;
+}
+
+.backup-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+}
+
+.backup-header h3 {
+  margin: 0;
+  font-size: 1.05rem;
+}
+
+.backup-row {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.ghost-button,
+.remove-button,
+.primary-button {
+  border: none;
+  border-radius: 12px;
+  min-height: 42px;
+  cursor: pointer;
+  font-weight: 700;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.ghost-button {
+  padding: 0 14px;
+  background: rgba(45, 108, 223, 0.08);
+  color: var(--primary-strong);
+}
+
+.remove-button {
+  padding: 0 12px;
+  background: rgba(239, 68, 68, 0.07);
+  color: var(--danger);
+}
+
+.primary-button {
+  min-width: 220px;
+  padding: 0 18px;
+  background: linear-gradient(135deg, var(--primary), var(--primary-strong));
+  color: white;
+  box-shadow: 0 12px 22px rgba(45, 108, 223, 0.22);
+}
+
+.primary-button[disabled] {
+  opacity: 0.55;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+.ghost-button:hover,
+.remove-button:hover,
+.primary-button:hover {
+  transform: translateY(-1px);
+}
+
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.success-box {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 18px 20px;
+  border-radius: 18px;
+  background: rgba(16, 185, 129, 0.08);
+  border: 1px solid rgba(16, 185, 129, 0.15);
+  color: #0f5132;
+}
+
+.success-box strong {
+  font-size: 1.03rem;
+}
+
+@media (max-width: 640px) {
+  .enrollment-shell {
+    padding: 18px;
+    border-radius: 22px;
+  }
+
+  .form-header,
+  .backup-header,
+  .backup-row,
+  .form-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .field-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .primary-button,
+  .ghost-button,
+  .remove-button {
+    width: 100%;
+  }
+}

@@ -1,0 +1,28 @@
+<section class="dashboard">
+  <header class="dashboard-header">
+    <h1>Instructor Command Center</h1>
+
+    <p>
+      Pending:
+      <strong>{{ store.pendingCount() }}</strong>
+    </p>
+  </header>
+
+  <section class="chart-section">
+    @defer (on viewport; prefetch on idle) {
+      <tms-analytics-chart [data]="store.entities()" />
+    } @placeholder {
+      <div class="skeleton-chart">
+        Scroll down to view analytics...
+      </div>
+    } @loading (minimum 500ms) {
+      <div class="spinner">
+        Downloading chart engine...
+      </div>
+    } @error {
+      <p>
+        Failed to load chart. Check your connection.
+      </p>
+    }
+  </section>
+</section>

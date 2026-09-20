@@ -6,6 +6,7 @@ import {
   CourseDetail,
   PagedResponse,
 } from "../models/course.model";
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: "root",
@@ -13,7 +14,7 @@ import {
 export class CourseService {
   private http = inject(HttpClient);
 
-  private baseUrl = "http://localhost:5285/api/v1/courses";
+  private baseUrl = `${environment.apiUrl}/courses`;
 
   getAll() {
     return this.http
@@ -28,9 +29,17 @@ export class CourseService {
       );
   }
 
-  getById(id: string) {
+  getById(id: number) {
     return this.http.get<CourseDetail>(
       `${this.baseUrl}/${id}`,
     );
   }
+
+  delete(id: number) {
+    return this.http.delete<void>(
+      `${this.baseUrl}/${id}`,
+    );
+  }
+
+
 }

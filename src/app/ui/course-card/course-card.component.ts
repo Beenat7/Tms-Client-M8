@@ -13,4 +13,10 @@ export class CourseCardComponent {
   course = input.required<Course>();
 
   enrollClicked = output<Course>();
+  deleteClicked = output<Course>();
+
+  percentage(course: Course): number {
+    const ratio = course.enrollmentCount / course.maxCapacity;
+    return Math.min(ratio * 100, 100);
+  }
 }
